@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[package]
+name = "totaldrop-wasm"
+description = "Browser-ready pure-Rust WebAssembly protocol, TD0/XChaCha20-Poly1305 verification, and 35-language UI state machine for TotalDrop"
+license = "GPL-3.0-or-later"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bip39 = "3.0.0"
+blake3 = "1.8.7"
+chacha20poly1305 = "0.11.0"
+totaldrop-crypto = { version = "0.2.0-beta.5", path = "../totaldrop-crypto" }
+totaldrop-l10n = { version = "0.2.0-beta.5", path = "../totaldrop-l10n" }
+totaldrop-proto = { version = "0.2.0-beta.5", path = "../totaldrop-proto" }
+zeroize = { version = "1.9.1", features = ["derive"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.4.3", features = ["wasm_js"] }
+
+[lints]
+workspace = true

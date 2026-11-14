@@ -1,0 +1,26 @@
+[package]
+name = "totaldrop-l10n"
+description = "TotalDrop's interface text: language negotiation, ICU messages, plurals and regional number formats"
+license = "MIT OR Apache-2.0"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+build = "build.rs"
+
+[dependencies]
+icu_decimal = "2.4.0"
+icu_locale = "2.4.0"
+icu_plurals = "2.4.0"
+icu_properties = "2.4.0"
+icu_provider = { version = "2.4.0", features = ["sync"] }  # Send + Sync data, for sharing Strings across threads
+serde_json = "1.0.154"
+unicode-normalization = "0.1.26"  # folds answers to the CLI's save prompt (fold_answer)
+
+[dev-dependencies]
+# The share text in every language must give its code back (#148).
+totaldrop-proto = { version = "0.2.0-beta.5", path = "../totaldrop-proto" }
+
+[lints]
+workspace = true

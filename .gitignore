@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+/target
+/target-wasm32-simd128/dist
+/target-wasm32-simd128/target
+/target-wasm32-baseline/dist
+/target-wasm32-baseline/target
+*.swp
+.DS_Store
+dist/

@@ -1,0 +1,29 @@
+# SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+version = "0.2.0-beta.5"
+edition = "2024"
+rust-version = "1.99"
+repository = "https://github.com/totaldrop-app/totaldrop-web-wasm"
+homepage = "https://totaldrop.app"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[workspace.lints.clippy]
+unwrap_used = "warn"
+expect_used = "warn"
+panic = "warn"
+indexing_slicing = "warn"
+arithmetic_side_effects = "warn"
+
+[profile.release]
+lto = true
+codegen-units = 1
+strip = true

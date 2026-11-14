@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Copyright and license annotations for the standalone 10-web-wasm module.
+version = 1
+
+[[annotations]]
+path = "**"
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The TotalDrop Contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = [
+  "crates/totaldrop-wasm/**",
+  "web-ui/**",
+  "target-wasm32-simd128/**",
+  "target-wasm32-baseline/**",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The TotalDrop Contributors"
+SPDX-License-Identifier = "GPL-3.0-or-later"
+
+[[annotations]]
+path = [
+  "crates/totaldrop-crypto/**",
+  "crates/totaldrop-proto/**",
+  "crates/totaldrop-l10n/**",
+  "l10n/**",
+]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The TotalDrop Contributors"
+SPDX-License-Identifier = "MIT OR Apache-2.0"

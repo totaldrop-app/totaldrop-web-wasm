@@ -1,0 +1,172 @@
+# Hardened CI workflow for totaldrop-web-wasm: Linux x86-64/ARM64 & macOS
+# test matrix, wasm32-unknown-unknown (+simd128 and baseline) builds with
+# SHA-384 SRI generation, Node 24 JS validation, cargo-deny, REUSE 3.3, and
+# secret scanning.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  merge_group:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    env:
+      RUSTFLAGS: -D warnings
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the pinned Rust toolchain
+        run: rustup show active-toolchain || rustup toolchain install
+      - name: Format
+        if: runner.os == 'Linux'
+        run: cargo fmt --all -- --check
+      - name: Clippy
+        shell: bash
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+      - name: Test
+        shell: bash
+        run: cargo test --workspace --locked
+
+  wasm-targets:
+    name: WebAssembly (+simd128 & baseline) and web-ui
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+      - name: Install the pinned Rust toolchain and wasm32 target
+        run: |
+          rustup show active-toolchain || rustup toolchain install
+          rustup target add wasm32-unknown-unknown
+      - name: Clippy wasm32-unknown-unknown (+simd128)
+        env:
+          RUSTFLAGS: -D warnings -C target-feature=+simd128
+        run: cargo clippy --workspace --target wasm32-unknown-unknown --locked -- -D warnings
+      - name: Clippy wasm32-unknown-unknown (baseline)
+        env:
+          RUSTFLAGS: -D warnings -C target-feature=-simd128
+        run: cargo clippy --workspace --target wasm32-unknown-unknown --locked -- -D warnings
+      - name: Build totaldrop-wasm (+simd128) and emit SHA-384 SRI
+        run: ./target-wasm32-simd128/build.sh --locked
+      - name: Build totaldrop-wasm (baseline) and emit SHA-384 SRI
+        run: ./target-wasm32-baseline/build.sh --locked
+      - name: Check web-ui ES modules
+        run: |
+          for f in web-ui/*.js; do
+            node --check "$f"
+          done
+
+  deny:
+    name: Dependencies (cargo-deny)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
+        with:
+          rust-version: "1.99.1"
+
+  reuse:
+    name: Licenses (REUSE)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Source files carry SPDX lines
+        run: ./tools/check-spdx.sh
+      - name: reuse lint
+        run: >-
+          docker run --rm --volume "$PWD:/data"
+          fsfe/reuse:6.2.0@sha256:85462a75c0f8efda09ddd190b92816b70e7662577c8427429e11e1b9f25a992e
+          lint
+
+  secrets:
+    name: Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Commits to scan
+        id: range
+        env:
+          EVENT: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          MERGE_GROUP_BASE: ${{ github.event.merge_group.base_sha }}
+        run: |
+          case $EVENT in
+            pull_request) base=HEAD^1 ;;
+            push) base=$BEFORE ;;
+            merge_group) base=$MERGE_GROUP_BASE ;;
+            *) base= ;;
+          esac
+          if [ -n "$base" ] && git cat-file -e "$base^{commit}" 2>/dev/null; then
+            range=$base..HEAD
+          else
+            base=HEAD range=HEAD
+          fi
+          echo "Scanning $range"
+          { echo "BASE=$base"; echo "RANGE=$range"; } >>"$GITHUB_ENV"
+      - name: No signing keys, key.properties or .gitleaksignore
+        run: |
+          found=$(
+            { git ls-files -z
+              git -c core.quotePath=false log --format= --name-only -z --no-renames --diff-filter=d "$RANGE"
+            } | grep -ziE '(^|/)(key\.properties|\.gitleaksignore)$|\.(jks|keystore|p12|pfx|pepk)$' | tr '\0' '\n' | sort -u
+          )
+          if [ -n "$found" ]; then
+            printf '%s\n' "$found"
+            echo "::error::Signing keys, key.properties and .gitleaksignore must not be committed."
+            exit 1
+          fi
+      - name: gitleaks
+        if: ${{ !cancelled() && steps.range.outcome == 'success' }}
+        run: |
+          cfg=$RUNNER_TEMP/gitleaks
+          mkdir -p "$cfg"
+          if ! git show "$BASE:.gitleaks.toml" >"$cfg/gitleaks.toml" 2>/dev/null; then
+            printf '[extend]\nuseDefault = true\n' >"$cfg/gitleaks.toml"
+          fi
+          docker run --rm --volume "$PWD/.git:/repo/.git:ro" --volume "$cfg:/cfg:ro" \
+            ghcr.io/gitleaks/gitleaks:v8.30.0@sha256:691af3c7c5a48b16f187ce3446d5f194838f91238f27270ed36eef6359a574d9 \
+            git --no-banner --redact --verbose --config /cfg/gitleaks.toml \
+            --gitleaks-ignore-path /cfg --ignore-gitleaks-allow \
+            --log-opts="--text $RANGE" /repo
+
+  gate:
+    name: CI
+    if: always()
+    needs: [test, wasm-targets, deny, reuse, secrets]
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          jq -r 'to_entries[] | "\(.key): \(.value.result)"' <<<"$NEEDS"
+          jq -e 'all(.[]; .result == "success")' <<<"$NEEDS" >/dev/null
