@@ -951,3 +951,36 @@ test("17. index.html and styles.css uphold Aurora tokens, RTL logical CSS, motio
   assert.match(css, /inset-inline-start/);
   assert.doesNotMatch(css, /\b(?:margin|padding|border)-(?:left|right)\s*:/);
 });
+
+test("18. web-ui/i18n ships all 35 canonical locales with RTL metadata and critical security gating", () => {
+  const manifest = JSON.parse(
+    readFileSync(resolve(WEB_UI_DIR, "i18n/manifest.json"), "utf8"),
+  );
+  assert.equal(manifest.defaultLocale, "en");
+  assert.equal(manifest.localeCount, 35);
+  assert.equal(manifest.locales.length, 35);
+
+  const en = JSON.parse(readFileSync(resolve(WEB_UI_DIR, "i18n/en.json"), "utf8"));
+  const tr = JSON.parse(readFileSync(resolve(WEB_UI_DIR, "i18n/tr.json"), "utf8"));
+  const ar = JSON.parse(readFileSync(resolve(WEB_UI_DIR, "i18n/ar.json"), "utf8"));
+
+  assert.equal(tr.reviewed, true);
+  assert.equal(tr.dir, "ltr");
+  assert.notEqual(tr.strings.verificationTitle, en.strings.verificationTitle);
+
+  assert.equal(ar.reviewed, false);
+  assert.equal(ar.dir, "rtl");
+  // Critical security strings remain in English until native review completes:
+  assert.equal(ar.strings.verificationTitle, en.strings.verificationTitle);
+  assert.equal(ar.strings.receiveAccept, en.strings.receiveAccept);
+  assert.notEqual(ar.strings.homeSendTitle, en.strings.homeSendTitle);
+
+  for (const loc of manifest.locales) {
+    const data = JSON.parse(
+      readFileSync(resolve(WEB_UI_DIR, `i18n/${loc.tag}.json`), "utf8"),
+    );
+    assert.equal(data.locale, loc.tag);
+    assert.equal(data.dir, ["ar", "fa", "he", "ur"].includes(loc.tag) ? "rtl" : "ltr");
+    assert.ok(Object.keys(data.strings).length >= 170);
+  }
+});

@@ -27,7 +27,8 @@ path = [
   "crates/totaldrop-proto/**",
   "crates/totaldrop-l10n/**",
   "l10n/**",
+  "web-ui/i18n/**",
 ]
-precedence = "closest"
+precedence = "override"
 SPDX-FileCopyrightText = "2026 The TotalDrop Contributors"
 SPDX-License-Identifier = "MIT OR Apache-2.0"

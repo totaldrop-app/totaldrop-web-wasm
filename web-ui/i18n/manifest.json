@@ -1,0 +1,229 @@
+{
+  "defaultLocale": "en",
+  "localeCount": 35,
+  "criticalKeys": [
+    "cliErrInvalidOffer",
+    "cliErrWrongCode",
+    "cliPromptSave",
+    "cliVerification",
+    "cliYes",
+    "errorInvalidOffer",
+    "errorWrongCode",
+    "receiveAccept",
+    "receiveDecline",
+    "verificationHint",
+    "verificationTitle"
+  ],
+  "locales": [
+    {
+      "tag": "ar",
+      "autonym": "العربية",
+      "dir": "rtl",
+      "reviewed": false
+    },
+    {
+      "tag": "bn",
+      "autonym": "বাংলা",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "cs",
+      "autonym": "Čeština",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "da",
+      "autonym": "Dansk",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "de",
+      "autonym": "Deutsch",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "el",
+      "autonym": "Ελληνικά",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "en",
+      "autonym": "English",
+      "dir": "ltr",
+      "reviewed": true
+    },
+    {
+      "tag": "es",
+      "autonym": "Español",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "fa",
+      "autonym": "فارسی",
+      "dir": "rtl",
+      "reviewed": false
+    },
+    {
+      "tag": "fi",
+      "autonym": "Suomi",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "fr",
+      "autonym": "Français",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "he",
+      "autonym": "עברית",
+      "dir": "rtl",
+      "reviewed": false
+    },
+    {
+      "tag": "hi",
+      "autonym": "हिन्दी",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "hu",
+      "autonym": "Magyar",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "id",
+      "autonym": "Bahasa Indonesia",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "it",
+      "autonym": "Italiano",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "ja",
+      "autonym": "日本語",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "ko",
+      "autonym": "한국어",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "ms",
+      "autonym": "Bahasa Melayu",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "nb",
+      "autonym": "Norsk bokmål",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "nl",
+      "autonym": "Nederlands",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "pl",
+      "autonym": "Polski",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "pt-BR",
+      "autonym": "Português (Brasil)",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "pt-PT",
+      "autonym": "Português (Portugal)",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "ro",
+      "autonym": "Română",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "ru",
+      "autonym": "Русский",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "sv",
+      "autonym": "Svenska",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "sw",
+      "autonym": "Kiswahili",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "th",
+      "autonym": "ไทย",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "tr",
+      "autonym": "Türkçe",
+      "dir": "ltr",
+      "reviewed": true
+    },
+    {
+      "tag": "uk",
+      "autonym": "Українська",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "ur",
+      "autonym": "اردو",
+      "dir": "rtl",
+      "reviewed": false
+    },
+    {
+      "tag": "vi",
+      "autonym": "Tiếng Việt",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "zh-Hans",
+      "autonym": "简体中文",
+      "dir": "ltr",
+      "reviewed": false
+    },
+    {
+      "tag": "zh-Hant",
+      "autonym": "繁體中文",
+      "dir": "ltr",
+      "reviewed": false
+    }
+  ]
+}

@@ -80,6 +80,8 @@ jobs:
           done
       - name: Test web-ui modules (Node 24)
         run: node --test web-ui/test/*.test.mjs
+      - name: Verify 2 isolated WebAssembly sub-platform units
+        run: python3 tools/verify-subplatforms.py
 
   deny:
     name: Dependencies (cargo-deny)

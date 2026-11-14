@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Isolated sub-platform x CPU architecture recipe manifest (ADR 0020).
+
+unit_id = "web-wasm32-baseline-wasm32"
+repository = "totaldrop-web-wasm"
+platform = "web"
+format = "wasm32-baseline"
+arch = "wasm32"
+version = "0.3.0-beta.6"
+rust_target = "wasm32-unknown-unknown"
+runner = "ubuntu-latest"
+tag_prefix = "web-wasm32-baseline-wasm32-v"
+workflow = ".github/workflows/pkg-wasm32-baseline-wasm32.yml"
+delegate = "target-wasm32-baseline/build.sh"
+artifact_name = "totaldrop-web-wasm-0.3.0-beta.6-baseline.tar.gz"
+spdx_license = "GPL-3.0-or-later"
+reproducible = true
+provenance = "sigstore-oidc"
+checksums_file = "SHA256SUMS"
+l10n_locales = 35
