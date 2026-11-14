@@ -8,10 +8,11 @@
 # not catch a source file missing inline SPDX headers.
 set -eu
 cd "$(dirname "$0")/.."
-missing=$(git ls-files \
-    '*.rs' '*.ts' '*.js' '*.mjs' '*.sh' '*.py' '*.css' |
+missing=$(git ls-files --cached --others --exclude-standard \
+    '*.rs' '*.ts' '*.js' '*.mjs' '*.sh' '*.py' '*.css' '*.html' |
   # REUSE-IgnoreStart (the patterns below are not this file's tags)
   while IFS= read -r f; do
+    [ -f "$f" ] || continue
     head -n 6 "$f" | grep -q 'SPDX-FileCopyrightText:' &&
       head -n 6 "$f" | grep -q 'SPDX-License-Identifier:' ||
       echo "$f"

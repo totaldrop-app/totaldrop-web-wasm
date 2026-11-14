@@ -1,0 +1,206 @@
+<!doctype html>
+<!--
+  SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+  SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<html lang="en" dir="ltr" data-totaldrop-auto-init="true">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="color-scheme" content="light dark" />
+    <title>TotalDrop — Receive files</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <div class="app-shell">
+      <header class="app-header">
+        <svg
+          class="kose-mark"
+          viewBox="0 0 112 112"
+          role="img"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M55 15H97V57A42 42 0 1 1 55 15Z" fill="currentColor" />
+        </svg>
+        <div class="brand-copy">
+          <span class="brand-name">TotalDrop</span>
+          <span class="brand-tagline">Any file, to anyone, anywhere.</span>
+        </div>
+      </header>
+
+      <main id="main-content" class="app-main">
+        <section
+          id="unsupported-browser-notice"
+          class="card notice-warning"
+          role="alert"
+          aria-labelledby="unsupported-heading"
+          hidden
+        >
+          <h2 id="unsupported-heading">Browser streaming save unavailable</h2>
+          <p>
+            TotalDrop streams verified chunks directly to disk through
+            <code>showSaveFilePicker</code> (File System Access API) so large
+            files never buffer in browser memory and unverified data is never
+            saved.
+          </p>
+          <p>
+            Open this receive link in a desktop browser with File System Access
+            support, or receive the transfer using the native TotalDrop app on
+            Linux, Android, or the command line.
+          </p>
+        </section>
+
+        <section
+          id="code-entry-card"
+          class="card"
+          aria-labelledby="receive-heading"
+        >
+          <h1 id="receive-heading">Receive files</h1>
+          <form id="code-form" novalidate>
+            <div class="field-group">
+              <label class="field-label" for="transfer-code-input">Code</label>
+              <input
+                id="transfer-code-input"
+                class="code-input"
+                type="text"
+                dir="ltr"
+                lang="en"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="7-harbor-rocket"
+                aria-describedby="code-help-text"
+              />
+              <p id="code-help-text" class="field-help">
+                Ask the sender for their code.
+              </p>
+            </div>
+            <div class="card-actions">
+              <button type="submit" id="connect-button" class="btn btn-primary">
+                Connect
+              </button>
+            </div>
+          </form>
+          <p
+            id="connection-status"
+            class="status-line"
+            role="status"
+            aria-live="polite"
+            hidden
+          >
+            Connecting securely…
+          </p>
+        </section>
+
+        <section
+          id="sas-verification-card"
+          class="card"
+          aria-labelledby="sas-heading"
+          hidden
+        >
+          <h2 id="sas-heading">Verification words</h2>
+          <p class="sas-hint">
+            The other person sees the same four words. If they differ, stop.
+          </p>
+          <ol
+            id="sas-word-list"
+            class="sas-words"
+            dir="ltr"
+            lang="en"
+            aria-label="Four verification words"
+          >
+            <li class="sas-word" data-sas-index="0">harbor</li>
+            <li class="sas-word" data-sas-index="1">rocket</li>
+            <li class="sas-word" data-sas-index="2">meadow</li>
+            <li class="sas-word" data-sas-index="3">beacon</li>
+          </ol>
+        </section>
+
+        <section
+          id="offer-summary-card"
+          class="card"
+          aria-labelledby="offer-heading"
+          hidden
+        >
+          <h2 id="offer-heading">Incoming files</h2>
+          <p id="offer-summary-text" class="offer-summary">1 file · 0 B</p>
+          <ul
+            id="offer-entry-list"
+            class="offer-entries"
+            dir="auto"
+            aria-label="Offered items"
+          >
+            <li>report.pdf</li>
+          </ul>
+          <div class="card-actions">
+            <button
+              type="button"
+              id="accept-save-button"
+              class="btn btn-primary"
+            >
+              Accept &amp; Save
+            </button>
+            <button
+              type="button"
+              id="decline-button"
+              class="btn btn-secondary"
+            >
+              Decline
+            </button>
+          </div>
+        </section>
+
+        <section
+          id="transfer-progress-card"
+          class="card"
+          aria-labelledby="progress-heading"
+          hidden
+        >
+          <div class="progress-header">
+            <h2 id="progress-heading">Receiving</h2>
+            <span id="progress-percent" class="progress-percent" dir="ltr">0%</span>
+          </div>
+          <div
+            id="transfer-progressbar"
+            class="progress-track"
+            role="progressbar"
+            aria-labelledby="progress-heading"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <div id="transfer-progress-fill" class="progress-fill"></div>
+          </div>
+          <p
+            id="progress-detail"
+            class="progress-detail"
+            role="status"
+            aria-live="polite"
+          >
+            Streaming verified chunks directly to disk…
+          </p>
+          <div class="card-actions">
+            <button
+              type="button"
+              id="cancel-transfer-button"
+              class="btn btn-danger-outline"
+            >
+              Stop
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer class="app-footer">
+        <p>End-to-end encrypted. No account, no email, no phone number.</p>
+        <p>Every file is verified on arrival; damaged files are discarded.</p>
+      </footer>
+    </div>
+
+    <script type="module" src="./receiver.js"></script>
+  </body>
+</html>

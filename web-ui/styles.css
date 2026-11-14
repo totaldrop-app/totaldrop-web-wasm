@@ -1,0 +1,463 @@
+/*
+ * SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ *
+ * Aurora Design System stylesheet for the zero-framework TotalDrop Web Receiver.
+ * Uses CSS logical properties exclusively (`margin-inline`, `padding-inline`,
+ * `inset-inline`, `inline-size`, `block-size`) so LTR and RTL locales mirror
+ * automatically across all 35 supported TotalDrop languages.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  /* Aurora Light Palette */
+  --td-accent: #6D4AE0;
+  --td-accent-hover: #5A38CC;
+  --td-accent-soft: rgba(109, 74, 224, 0.11);
+  --td-on-accent: #FFFFFF;
+
+  --td-bg: #F6F5FB;
+  --td-bg-glow: radial-gradient(
+    circle at 50% 0%,
+    rgba(109, 74, 224, 0.10),
+    transparent 62%
+  );
+  --td-surface: #FFFFFF;
+  --td-surface-muted: #F0EEF8;
+  --td-border: #E0DCF0;
+  --td-text: #181526;
+  --td-text-muted: #5C5675;
+
+  --td-warning-bg: #FFF8E7;
+  --td-warning-border: #D99B00;
+  --td-warning-text: #593E00;
+
+  --td-danger: #C62828;
+  --td-danger-soft: rgba(198, 40, 40, 0.10);
+  --td-success: #1B7F4B;
+
+  --td-radius-lg: 18px;
+  --td-radius-md: 12px;
+  --td-radius-sm: 8px;
+  --td-shadow: 0 12px 34px rgba(24, 21, 38, 0.06);
+
+  --td-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell,
+    "Noto Sans", sans-serif;
+  --td-font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Aurora Dark Palette */
+    --td-accent: #A68BFF;
+    --td-accent-hover: #BBA5FF;
+    --td-accent-soft: rgba(166, 139, 255, 0.15);
+    --td-on-accent: #150F2B;
+
+    --td-bg: #0E0C17;
+    --td-bg-glow: radial-gradient(
+      circle at 50% 0%,
+      rgba(166, 139, 255, 0.14),
+      transparent 62%
+    );
+    --td-surface: #171425;
+    --td-surface-muted: #211D34;
+    --td-border: #2F294A;
+    --td-text: #F4F1FF;
+    --td-text-muted: #ADA5CA;
+
+    --td-warning-bg: #29200F;
+    --td-warning-border: #E0A82E;
+    --td-warning-text: #FFE6AD;
+
+    --td-danger: #FF7B7B;
+    --td-danger-soft: rgba(255, 123, 123, 0.14);
+    --td-success: #5CE09B;
+
+    --td-shadow: 0 16px 40px rgba(0, 0, 0, 0.36);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  margin-block: 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  min-block-size: 100vh;
+}
+
+body {
+  font-family: var(--td-font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--td-text);
+  background-color: var(--td-bg);
+  background-image: var(--td-bg-glow);
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+}
+
+.skip-link {
+  position: absolute;
+  inset-block-start: -999px;
+  inset-inline-start: 1rem;
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  background-color: var(--td-accent);
+  color: var(--td-on-accent);
+  border-radius: var(--td-radius-sm);
+  text-decoration: none;
+  font-weight: 600;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  inset-block-start: 1rem;
+}
+
+.app-shell {
+  inline-size: 100%;
+  max-inline-size: 38rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  padding-block: 2.25rem 2.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+/* Header & TotalDrop Kose Brand Mark */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding-block-end: 0.35rem;
+}
+
+.kose-mark {
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  color: var(--td-accent);
+  flex-shrink: 0;
+}
+
+.kose-mark path {
+  transform-origin: 55px 57px;
+}
+
+@keyframes kose-quarter-step {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .kose-mark path {
+    animation: kose-quarter-step 3.2s steps(1, end) infinite;
+  }
+}
+
+.brand-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.brand-tagline {
+  font-size: 0.875rem;
+  color: var(--td-text-muted);
+}
+
+/* Cards */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.card {
+  background-color: var(--td-surface);
+  border: 1px solid var(--td-border);
+  border-radius: var(--td-radius-lg);
+  padding-block: 1.4rem;
+  padding-inline: 1.5rem;
+  box-shadow: var(--td-shadow);
+}
+
+.card h1,
+.card h2 {
+  margin-block: 0 0.45rem;
+  margin-inline: 0;
+  font-size: 1.2rem;
+  font-weight: 650;
+  text-align: start;
+}
+
+.card p {
+  margin-block: 0 0.9rem;
+  margin-inline: 0;
+  text-align: start;
+}
+
+/* Unsupported Browser Fallback Notice */
+.notice-warning {
+  background-color: var(--td-warning-bg);
+  border-color: var(--td-warning-border);
+  border-inline-start-width: 4px;
+  color: var(--td-warning-text);
+}
+
+.notice-warning p:last-child {
+  margin-block-end: 0;
+}
+
+/* Code Entry Form */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-block-end: 1rem;
+}
+
+.field-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.code-input {
+  inline-size: 100%;
+  padding-block: 0.75rem;
+  padding-inline: 0.9rem;
+  font-family: var(--td-font-mono);
+  font-size: 1rem;
+  color: var(--td-text);
+  background-color: var(--td-surface-muted);
+  border: 1px solid var(--td-border);
+  border-radius: var(--td-radius-md);
+  direction: ltr;
+  unicode-bidi: isolate;
+  text-align: start;
+}
+
+.code-input:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--td-accent);
+  outline-offset: 2px;
+}
+
+.field-help {
+  font-size: 0.85rem;
+  color: var(--td-text-muted);
+  margin-block: 0;
+}
+
+.status-line {
+  margin-block: 0.85rem 0;
+  padding-block: 0.6rem;
+  padding-inline: 0.85rem;
+  border-radius: var(--td-radius-sm);
+  background-color: var(--td-accent-soft);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* 4-Word SAS Verification Card (LTR isolated) */
+.sas-hint {
+  color: var(--td-text-muted);
+  font-size: 0.92rem;
+}
+
+.sas-words {
+  list-style: none;
+  margin-block: 0.65rem 0;
+  margin-inline: 0;
+  padding-block: 0;
+  padding-inline: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+@media (min-width: 32rem) {
+  .sas-words {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.sas-word {
+  padding-block: 0.65rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--td-radius-md);
+  background-color: var(--td-surface-muted);
+  border: 1px solid var(--td-border);
+  font-family: var(--td-font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+/* Offer Summary Card */
+.offer-summary {
+  font-weight: 600;
+  color: var(--td-accent);
+}
+
+.offer-entries {
+  list-style: none;
+  margin-block: 0 1.1rem;
+  margin-inline: 0;
+  padding-block: 0.65rem;
+  padding-inline: 0.85rem;
+  background-color: var(--td-surface-muted);
+  border-radius: var(--td-radius-md);
+  max-block-size: 11rem;
+  overflow-y: auto;
+  font-family: var(--td-font-mono);
+  font-size: 0.875rem;
+}
+
+.offer-entries li + li {
+  margin-block-start: 0.35rem;
+}
+
+/* Buttons */
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--td-radius-md);
+  padding-block: 0.7rem;
+  padding-inline: 1.2rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: var(--td-accent);
+  color: var(--td-on-accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--td-accent-hover);
+}
+
+.btn-secondary {
+  background-color: var(--td-surface-muted);
+  color: var(--td-text);
+  border-color: var(--td-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--td-accent);
+}
+
+.btn-danger-outline {
+  background-color: var(--td-danger-soft);
+  color: var(--td-danger);
+  border-color: var(--td-danger);
+}
+
+/* Streaming Progress Bar */
+.progress-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-block-end: 0.55rem;
+}
+
+.progress-header h2 {
+  margin-block-end: 0;
+}
+
+.progress-percent {
+  font-family: var(--td-font-mono);
+  font-weight: 700;
+  color: var(--td-accent);
+}
+
+.progress-track {
+  inline-size: 100%;
+  block-size: 0.75rem;
+  background-color: var(--td-surface-muted);
+  border: 1px solid var(--td-border);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-block-end: 0.85rem;
+}
+
+.progress-fill {
+  block-size: 100%;
+  inline-size: var(--td-progress, 0%);
+  background-color: var(--td-accent);
+  border-radius: 999px;
+  transition: inline-size 160ms linear;
+}
+
+.progress-detail {
+  font-size: 0.9rem;
+  color: var(--td-text-muted);
+}
+
+/* Footer */
+.app-footer {
+  margin-block-start: auto;
+  padding-block-start: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--td-text-muted);
+  text-align: start;
+}
+
+.app-footer p {
+  margin-block: 0.25rem;
+  margin-inline: 0;
+}

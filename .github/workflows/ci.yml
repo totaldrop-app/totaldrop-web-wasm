@@ -78,6 +78,8 @@ jobs:
           for f in web-ui/*.js; do
             node --check "$f"
           done
+      - name: Test web-ui modules (Node 24)
+        run: node --test web-ui/test/*.test.mjs
 
   deny:
     name: Dependencies (cargo-deny)
