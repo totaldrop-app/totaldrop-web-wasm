@@ -17,7 +17,9 @@ DIST_DIR="$UNIT_DIR/dist"
 TARGET_TRIPLE="wasm32-unknown-unknown"
 WASM_RUSTFLAGS='-D warnings -C target-feature=+simd128'
 
-export RUSTUP_TOOLCHAIN="${RUSTUP_TOOLCHAIN:-stable}"
+if [[ -z "${RUSTUP_TOOLCHAIN:-}" ]] && ! rustup show active-toolchain >/dev/null 2>&1; then
+  export RUSTUP_TOOLCHAIN="stable"
+fi
 
 generate_sri() {
   local file_path="$1"
@@ -36,7 +38,7 @@ fi
 
 if [[ "${1:-}" == "--dry-run" ]]; then
   echo "Variant:       wasm32-simd128"
-  echo "Toolchain:     $RUSTUP_TOOLCHAIN"
+  echo "Toolchain:     ${RUSTUP_TOOLCHAIN:-$(rustup show active-toolchain | awk '{print $1}')}"
   echo "RUSTFLAGS:     $WASM_RUSTFLAGS"
   echo "Build command: cargo build --target $TARGET_TRIPLE --release -p totaldrop-wasm"
   exit 0
@@ -44,7 +46,7 @@ fi
 
 INSTALLED_TARGETS="$(rustup target list --installed 2>/dev/null || true)"
 if ! grep -qx "$TARGET_TRIPLE" <<<"$INSTALLED_TARGETS"; then
-  echo "error: target '$TARGET_TRIPLE' is not installed in toolchain '$RUSTUP_TOOLCHAIN'." >&2
+  echo "error: target '$TARGET_TRIPLE' is not installed in toolchain '${RUSTUP_TOOLCHAIN:-active}'." >&2
   echo "Install it first: rustup target add $TARGET_TRIPLE" >&2
   exit 1
 fi

@@ -61,8 +61,8 @@ pub enum XChaChaError {
 impl core::fmt::Display for XChaChaError {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
         f.write_str(match self {
-            Self::Inauthentic => "XChaCha20-Poly1305 chunk failed authentication",
-            Self::Malformed => "malformed XChaCha20-Poly1305 chunk or size limit exceeded",
+            Self::Inauthentic => "stream chunk failed Poly1305 authentication",
+            Self::Malformed => "malformed stream chunk or size limit exceeded",
             Self::OutOfSequence => "chunk index out of sequence or past end of stream",
             Self::DigestMismatch => "plaintext BLAKE3 digest or byte length mismatch",
             Self::IncompleteStream => "stream ended before all expected chunks were verified",

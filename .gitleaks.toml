@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2026 The TotalDrop Contributors
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+title = "TotalDrop Web WASM Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist initial root commit false-positive on stream AEAD cipher name in xchacha.rs"
+commits = [
+    "608f271174f72646d869316d1bc62e473896f43f",
+]
