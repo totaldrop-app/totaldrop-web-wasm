@@ -115,5 +115,5 @@ Because `https://totaldrop.app` becomes a trusted `Origin` once `ALLOW_WEB_RECEI
    Both `target-wasm32-simd128/build.sh` and `target-wasm32-baseline/build.sh` emit SHA-384 integrity digests (`sha384-…`) verified by `fetch(..., { integrity })` in `web-ui/receiver.js`.
 3. **Fragment Confidentiality & Referrer Suppression**:
    `Referrer-Policy: no-referrer` + immediate `history.replaceState` scrubbing in `consumeLocationFragment()` ensures the `#<code>` fragment never leaks via HTTP headers, browser extensions inspecting navigation history, or screen sharing.
-4. **Threat-Model Boundary Reminder (`docs/tehdit-modeli.md`)**:
+4. **Threat-Model Boundary Reminder (`docs/threat-model.md`)**:
    `Origin` is an **anti-cross-site-abuse** control enforced by browsers, **not** client authentication: non-browser programs can always omit or forge `Origin`, which is why per-IP `/64` rate limits (`limit.ts`), CPace password-authenticated key exchange, hybrid `Noise + ML-KEM-768` session keys, and 4-word SAS verification remain the cryptographic root of trust.
