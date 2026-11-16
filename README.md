@@ -1,6 +1,13 @@
-# TotalDrop Web Receiver & WebAssembly (`10-web-wasm`)
+# TotalDrop WebAssembly Workspace (`totaldrop-web-wasm` — Reserved / Shelved)
 
-Standalone pure-Rust WebAssembly protocol/cryptography workspace and zero-framework browser Web Receiver modules based on [`totaldrop-app/totaldrop`](https://github.com/totaldrop-app/totaldrop) at upstream commit `ebe2b19` (`v0.2.0-beta.5`).
+> [!IMPORTANT]
+> **Status: Reserved / Shelved (`Not planned`)**
+>
+> - **Browser receiver is not planned:** [`totaldrop-app/totaldrop#30`](https://github.com/totaldrop-app/totaldrop/issues/30) (*Receive in the browser*) was closed as **Not planned**.
+> - **Blocked at the server edge (`T9`):** Since [`totaldrop-app/totaldrop#450`](https://github.com/totaldrop-app/totaldrop/issues/450) / [`PR #453`](https://github.com/totaldrop-app/totaldrop/pull/453), all four production and self-hosted TotalDrop Rendezvous and Relay server implementations reject WebSocket upgrades carrying an HTTP `Origin` header with `403 Forbidden` before per-client rate-limit accounting.
+> - **Repository scope boundary (`ADR 0025`):** Under Phase 0 and rule 6 of the modular multi-repository architecture, this repository is **reserved**. The pure-Rust `wasm32` crates and `web-ui/` prototype modules below are non-authoritative, undeployed, and unsupported unless a dedicated future ADR and threat-model `T9` revision are accepted by the maintainers.
+
+Archived prototype pure-Rust WebAssembly protocol/cryptography workspace and zero-framework browser receiver research modules extracted from [`totaldrop-app/totaldrop`](https://github.com/totaldrop-app/totaldrop) at upstream commit `ebe2b19` (`v0.2.0-beta.5`).
 
 Every crate in this workspace enforces `unsafe_code = "forbid"` alongside upstream's strict Clippy lint profile (`missing_docs`, `unwrap_used`, `expect_used`, `panic`, `indexing_slicing`, `arithmetic_side_effects`).
 
